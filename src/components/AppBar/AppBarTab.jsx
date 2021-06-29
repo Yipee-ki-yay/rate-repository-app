@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Pressable } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Text from '../Text';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   tab: {
@@ -8,9 +9,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBarTab = ({title}) => {
+const AppBarTab = ({title, to}) => {
   return (
-    <Pressable style={styles.tab} onPress={() => {}}><Text color="textSecondary" fontWeight="bold">{title}</Text></Pressable>
+    <Link style={styles.tab} to={to}><Text color="textSecondary" fontWeight="bold">{title}</Text></Link>
+    // <Pressable style={styles.tab} onPress={() => {}}><Text color="textSecondary" fontWeight="bold">{title}</Text></Pressable>
   );
 };
 

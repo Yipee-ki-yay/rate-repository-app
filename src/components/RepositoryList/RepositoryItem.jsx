@@ -53,7 +53,8 @@ const RepositoryItem = ({item}) => {
       <View style={theme.flex.flexContainerRow}>
         <Image 
           style={imageStyles}
-          source={item.ownerAvatarUrl}
+          // source={item.ownerAvatarUrl}
+          source={{uri : item.ownerAvatarUrl}}
         />
         <View>
           <View><Text fontWeight="bold" fontSize="subheading">{item.fullName}</Text></View>

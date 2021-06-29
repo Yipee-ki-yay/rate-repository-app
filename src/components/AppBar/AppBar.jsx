@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import theme from '../../theme';
 import AppBarTab from './AppBarTab';
+// import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,9 +12,14 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-  return <View style={styles.container}>
-      <AppBarTab title="Repositories" />
-    </View>;
+  return (
+    <View style={styles.container}>
+      <ScrollView horizontal>
+        <AppBarTab title="Repositories" to="/" />
+        <AppBarTab title="Login" to="/login"/>
+      </ScrollView>
+    </View>
+  );
 };
 
 export default AppBar;
