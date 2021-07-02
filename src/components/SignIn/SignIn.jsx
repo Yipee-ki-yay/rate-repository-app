@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, View, Pressable } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import useSignIn from '../../hooks/useSignIn';
+import { useHistory } from "react-router-native";
 
 import Text from '../Text';
 import FormikTextInput from '../FormikTextInput';
@@ -29,11 +31,21 @@ const initialValues = {
 
 const SignIn = () => {
   const button = [theme.button.standard, styles.btn];
+  const [signIn] = useSignIn();
+  const history = useHistory();
 
-  const onSubmit = values => {
-    const {username, password} = values;
+  const onSubmit = async (values) => {
+    const { username, password } = values;
 
     console.log(username, password);
+
+    try {
+      const { data } = await signIn({ username, password });
+      console.log(data);
+      history.push('/');
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

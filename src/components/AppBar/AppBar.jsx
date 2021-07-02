@@ -2,7 +2,8 @@ import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import theme from '../../theme';
 import AppBarTab from './AppBarTab';
-// import { Link } from 'react-router-native';
+import useAuthorizedUser from '../../hooks/useAuthorizedUser';
+import useSignOut from '../../hooks/useSignOut';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,11 +13,15 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  const {data} = useAuthorizedUser();
+  const [signOut] = useSignOut();
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab title="Repositories" to="/" />
-        <AppBarTab title="Login" to="/login"/>
+        {!data?.authorizedUser?.username && <AppBarTab title="Login" to="/login"/>}
+        {data?.authorizedUser?.username && <AppBarTab title="Sign out" onPress={signOut} />}
       </ScrollView>
     </View>
   );
