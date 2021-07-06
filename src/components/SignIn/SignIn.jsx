@@ -29,8 +29,30 @@ const initialValues = {
   password: '',
 };
 
-const SignIn = () => {
+export const SignInContainer = ({ onSubmit }) => {
   const button = [theme.button.standard, styles.btn];
+
+  return (
+    <View style={styles.container}>
+      <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+        {({ handleSubmit }) => {
+          return (
+            <View>
+              <FormikTextInput testID='formikUsername' name="username" placeholder="username" />
+              <FormikTextInput testID='formikPassword' name="password" placeholder="password" secureTextEntry />
+              <Pressable testID='formikSubmit' style={button} onPress={handleSubmit}>
+                <Text color="textSecondary" fontWeight="bold">Calculate</Text>
+              </Pressable>
+            </View>
+          );
+        }}
+      </Formik>
+    </View>
+  );
+};
+
+const SignIn = () => {
+  // const button = [theme.button.standard, styles.btn];
   const [signIn] = useSignIn();
   const history = useHistory();
 
@@ -49,21 +71,22 @@ const SignIn = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-        {({ handleSubmit }) => {
-          return (
-            <View>
-              <FormikTextInput name="username" placeholder="username" />
-              <FormikTextInput name="password" placeholder="password" secureTextEntry />
-              <Pressable style={button} onPress={handleSubmit}>
-                <Text color="textSecondary" fontWeight="bold">Calculate</Text>
-              </Pressable>
-            </View>
-          );
-        }}
-      </Formik>
-    </View>
+    <SignInContainer onSubmit={onSubmit} />
+    // <View style={styles.container}>
+    //   <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+    //     {({ handleSubmit }) => {
+    //       return (
+    //         <View>
+    //           <FormikTextInput name="username" placeholder="username" />
+    //           <FormikTextInput name="password" placeholder="password" secureTextEntry />
+    //           <Pressable style={button} onPress={handleSubmit}>
+    //             <Text color="textSecondary" fontWeight="bold">Calculate</Text>
+    //           </Pressable>
+    //         </View>
+    //       );
+    //     }}
+    //   </Formik>
+    // </View>
   );
 };
 
