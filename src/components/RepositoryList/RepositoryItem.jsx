@@ -57,27 +57,27 @@ const RepositoryItem = ({item}) => {
           source={{uri : item.ownerAvatarUrl}}
         />
         <View>
-          <View><Text fontWeight="bold" fontSize="subheading">{item.fullName}</Text></View>
-          <View><Text color="tertiary" fontSize="subheading">{item.description}</Text></View>
-          <View style={styles.langTag}><Text style={styles.langTagText}>{item.language}</Text></View>
+          <View><Text testID='repositoryName' fontWeight="bold" fontSize="subheading">{item.fullName}</Text></View>
+          <View><Text testID='repositoryDescription' color="tertiary" fontSize="subheading">{item.description}</Text></View>
+          <View style={styles.langTag}><Text testID='repositoryLanguage' style={styles.langTagText}>{item.language}</Text></View>
         </View>
       </View>
       <View style={theme.flex.flexContainerRow}>
         <View style={itemStatistic}>
           <Text color="tertiary">Start</Text>
-          <Text fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.stargazersCount)}</Text>
+          <Text testID='repositoryCounts' fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.stargazersCount)}</Text>
         </View>
         <View style={itemStatistic}>
           <Text color="tertiary">Forks</Text>
-          <Text fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.forksCount)}</Text>
+          <Text testID='repositoryCounts' fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.forksCount)}</Text>
         </View>
         <View style={itemStatistic}>
           <Text color="tertiary">Review</Text>
-          <Text fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.reviewCount)}</Text>
+          <Text testID='repositoryCounts' fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.reviewCount)}</Text>
         </View>
         <View style={itemStatistic}>
           <Text color="tertiary">Rating</Text>
-          <Text fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.ratingAverage)}</Text>
+          <Text testID='repositoryCounts' fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.ratingAverage)}</Text>
         </View>
       </View>
     </View>
