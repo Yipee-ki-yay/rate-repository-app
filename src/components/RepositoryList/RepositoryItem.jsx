@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import theme from '../../theme';
 import Text from '../Text';
+import Button from '../Button';
+import * as Linking from 'expo-linking';
 
 const styles = StyleSheet.create({
   container: {
@@ -27,7 +29,20 @@ const styles = StyleSheet.create({
   }
 });
 
-const RepositoryItem = ({item}) => {
+const RepositoryButton = ({url}) => {
+  console.log(url);
+  const handleClick = () => {
+    console.log(url);
+    Linking.openURL(url);
+  };
+  
+  return (
+    <Button onPress={handleClick}>Open in GitHub</Button>
+  );
+};
+
+const RepositoryItem = ({item, isShowRepButton}) => {
+  console.log('isShowRepButton', isShowRepButton);
   const itemStatistic = [
     theme.flex.flexContainerReverse,
     styles.itemStatistic
@@ -80,6 +95,9 @@ const RepositoryItem = ({item}) => {
           <Text testID='repositoryCounts' fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.ratingAverage)}</Text>
         </View>
       </View>
+      {isShowRepButton &&
+        <RepositoryButton url={item.url} />
+      }
     </View>
   );
 };

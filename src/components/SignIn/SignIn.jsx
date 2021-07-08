@@ -8,6 +8,7 @@ import { useHistory } from "react-router-native";
 import Text from '../Text';
 import FormikTextInput from '../FormikTextInput';
 import theme from '../../theme';
+import Button from '../Button';
 
 const validationSchema = yup.object().shape({
   username: yup.string().required('username is required'),
@@ -30,7 +31,7 @@ const initialValues = {
 };
 
 export const SignInContainer = ({ onSubmit }) => {
-  const button = [theme.button.standard, styles.btn];
+  // const button = [theme.button.standard, styles.btn];
 
   return (
     <View style={styles.container}>
@@ -40,9 +41,10 @@ export const SignInContainer = ({ onSubmit }) => {
             <View>
               <FormikTextInput testID='formikUsername' name="username" placeholder="username" />
               <FormikTextInput testID='formikPassword' name="password" placeholder="password" secureTextEntry />
-              <Pressable testID='formikSubmit' style={button} onPress={handleSubmit}>
+              {/* <Pressable testID='formikSubmit' style={button} onPress={handleSubmit}>
                 <Text color="textSecondary" fontWeight="bold">Calculate</Text>
-              </Pressable>
+              </Pressable> */}
+              <Button testID='formikSubmit' styles={styles.btn} onPress={handleSubmit}>Calculate</Button>
             </View>
           );
         }}
@@ -72,21 +74,6 @@ const SignIn = () => {
 
   return (
     <SignInContainer onSubmit={onSubmit} />
-    // <View style={styles.container}>
-    //   <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-    //     {({ handleSubmit }) => {
-    //       return (
-    //         <View>
-    //           <FormikTextInput name="username" placeholder="username" />
-    //           <FormikTextInput name="password" placeholder="password" secureTextEntry />
-    //           <Pressable style={button} onPress={handleSubmit}>
-    //             <Text color="textSecondary" fontWeight="bold">Calculate</Text>
-    //           </Pressable>
-    //         </View>
-    //       );
-    //     }}
-    //   </Formik>
-    // </View>
   );
 };
 
