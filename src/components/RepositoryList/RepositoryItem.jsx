@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, FlatList } from 'react-native';
 import theme from '../../theme';
 import Text from '../Text';
 import Button from '../Button';
+import ReviewItem from '../ReviewItem';
 import * as Linking from 'expo-linking';
 
 const styles = StyleSheet.create({
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
   langTagText: {
     color: theme.colors.secondary,
     fontWeight: theme.fontWeights.bold,
-  }
+  },
 });
 
 const RepositoryButton = ({url}) => {
@@ -41,8 +42,9 @@ const RepositoryButton = ({url}) => {
   );
 };
 
-const RepositoryItem = ({item, isShowRepButton}) => {
-  console.log('isShowRepButton', isShowRepButton);
+
+const RepositoryItem = ({item, reviews, isShowRepButton}) => {
+  let reviewsData;
   const itemStatistic = [
     theme.flex.flexContainerReverse,
     styles.itemStatistic
@@ -63,42 +65,61 @@ const RepositoryItem = ({item, isShowRepButton}) => {
     return result;
   };
 
+  const RepositoryInfo = ({item}) => {
+    return (
+      <View style={styles.container}>
+        <View style={theme.flex.flexContainerRow}>
+          <Image 
+            style={imageStyles}
+            // source={item.ownerAvatarUrl}
+            source={{uri : item.ownerAvatarUrl}}
+          />
+          <View>
+            <View><Text testID='repositoryName' fontWeight="bold" fontSize="subheading">{item.fullName}</Text></View>
+            <View><Text testID='repositoryDescription' color="tertiary" fontSize="subheading">{item.description}</Text></View>
+            <View style={styles.langTag}><Text testID='repositoryLanguage' style={styles.langTagText}>{item.language}</Text></View>
+          </View>
+        </View>
+        <View style={theme.flex.flexContainerRow}>
+          <View style={itemStatistic}>
+            <Text color="tertiary">Start</Text>
+            <Text testID='repositoryCounts' fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.stargazersCount)}</Text>
+          </View>
+          <View style={itemStatistic}>
+            <Text color="tertiary">Forks</Text>
+            <Text testID='repositoryCounts' fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.forksCount)}</Text>
+          </View>
+          <View style={itemStatistic}>
+            <Text color="tertiary">Review</Text>
+            <Text testID='repositoryCounts' fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.reviewCount)}</Text>
+          </View>
+          <View style={itemStatistic}>
+            <Text color="tertiary">Rating</Text>
+            <Text testID='repositoryCounts' fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.ratingAverage)}</Text>
+          </View>
+        </View>
+        {isShowRepButton &&
+          <RepositoryButton url={item.url} />
+        }
+      </View>
+    );
+  };
+
+  if (!reviews) {
+    reviewsData = [];
+  } else {
+    reviewsData = reviews.edges;
+  }
+
   return (
-    <View style={styles.container}>
-      <View style={theme.flex.flexContainerRow}>
-        <Image 
-          style={imageStyles}
-          // source={item.ownerAvatarUrl}
-          source={{uri : item.ownerAvatarUrl}}
-        />
-        <View>
-          <View><Text testID='repositoryName' fontWeight="bold" fontSize="subheading">{item.fullName}</Text></View>
-          <View><Text testID='repositoryDescription' color="tertiary" fontSize="subheading">{item.description}</Text></View>
-          <View style={styles.langTag}><Text testID='repositoryLanguage' style={styles.langTagText}>{item.language}</Text></View>
-        </View>
-      </View>
-      <View style={theme.flex.flexContainerRow}>
-        <View style={itemStatistic}>
-          <Text color="tertiary">Start</Text>
-          <Text testID='repositoryCounts' fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.stargazersCount)}</Text>
-        </View>
-        <View style={itemStatistic}>
-          <Text color="tertiary">Forks</Text>
-          <Text testID='repositoryCounts' fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.forksCount)}</Text>
-        </View>
-        <View style={itemStatistic}>
-          <Text color="tertiary">Review</Text>
-          <Text testID='repositoryCounts' fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.reviewCount)}</Text>
-        </View>
-        <View style={itemStatistic}>
-          <Text color="tertiary">Rating</Text>
-          <Text testID='repositoryCounts' fontWeight="bold" fontSize="subheading">{handleStatisticVal(item.ratingAverage)}</Text>
-        </View>
-      </View>
-      {isShowRepButton &&
-        <RepositoryButton url={item.url} />
-      }
-    </View>
+    <FlatList
+      data={reviewsData}
+      renderItem={({ item }) => <ReviewItem review={item} />}
+      keyExtractor={(item) => item.node.id}
+      ListHeaderComponent={() => <RepositoryInfo item={item} />}
+      // onEndReached={onEndReach}
+      // onEndReachedThreshold={0.5}
+    />
   );
 };
 
