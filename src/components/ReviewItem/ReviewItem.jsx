@@ -37,9 +37,7 @@ const styles = StyleSheet.create({
 });
 
 const ReviewItem = ({review}) => {
-  console.log('ReviewItem review:', review);
   const {text, rating, createdAt, user} = review.node;
-  console.log(text, rating, createdAt, user);
   return (
     <View style={styles.container}>
       <View>

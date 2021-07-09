@@ -15,13 +15,15 @@ const styles = StyleSheet.create({
 const AppBar = () => {
   const {data} = useAuthorizedUser();
   const [signOut] = useSignOut();
+  const isAuthorized = data?.authorizedUser?.username;
 
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab title="Repositories" to="/" />
-        {!data?.authorizedUser?.username && <AppBarTab title="Login" to="/login"/>}
-        {data?.authorizedUser?.username && <AppBarTab title="Sign out" onPress={signOut} />}
+        {!isAuthorized && <AppBarTab title="Login" to="/login"/>}
+        {isAuthorized && <AppBarTab title="Sign out" onPress={signOut} />}
+        <AppBarTab title="Create a review" to="/review" />
       </ScrollView>
     </View>
   );

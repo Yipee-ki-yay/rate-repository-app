@@ -1,13 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Pressable } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import useSignIn from '../../hooks/useSignIn';
 import { useHistory } from "react-router-native";
 
-import Text from '../Text';
 import FormikTextInput from '../FormikTextInput';
-import theme from '../../theme';
 import Button from '../Button';
 
 const validationSchema = yup.object().shape({
@@ -31,8 +29,6 @@ const initialValues = {
 };
 
 export const SignInContainer = ({ onSubmit }) => {
-  // const button = [theme.button.standard, styles.btn];
-
   return (
     <View style={styles.container}>
       <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
@@ -41,10 +37,7 @@ export const SignInContainer = ({ onSubmit }) => {
             <View>
               <FormikTextInput testID='formikUsername' name="username" placeholder="username" />
               <FormikTextInput testID='formikPassword' name="password" placeholder="password" secureTextEntry />
-              {/* <Pressable testID='formikSubmit' style={button} onPress={handleSubmit}>
-                <Text color="textSecondary" fontWeight="bold">Calculate</Text>
-              </Pressable> */}
-              <Button testID='formikSubmit' styles={styles.btn} onPress={handleSubmit}>Calculate</Button>
+              <Button testID='formikSubmit' styles={styles.btn} onPress={handleSubmit}>Sign in</Button>
             </View>
           );
         }}
