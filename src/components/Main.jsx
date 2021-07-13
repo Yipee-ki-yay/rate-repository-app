@@ -8,6 +8,7 @@ import AppBar from './AppBar';
 import theme from '../theme';
 import RepositorySingle from './RepositorySingle';
 import ReviewForm from './ReviewForm';
+import SignUp from './SignUp';
 
 
 const styles = StyleSheet.create({
@@ -29,6 +30,9 @@ const Main = () => {
         </Route>
         <Route path="/review" exact>
           <ReviewForm />
+        </Route>
+        <Route path="/register" exact>
+          <SignUp />
         </Route>
         <Route path="/repository/:id">
           <RepositorySingle isShowRepButton={true} />

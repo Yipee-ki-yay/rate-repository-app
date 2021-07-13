@@ -21,9 +21,14 @@ const AppBar = () => {
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab title="Repositories" to="/" />
-        {!isAuthorized && <AppBarTab title="Login" to="/login"/>}
+        {!isAuthorized && ( 
+          <>
+            <AppBarTab title="Login" to="/login"/>
+            <AppBarTab title="Sign up" to="/register" />
+          </>
+        )}
         {isAuthorized && <AppBarTab title="Sign out" onPress={signOut} />}
-        <AppBarTab title="Create a review" to="/review" />
+        {isAuthorized && <AppBarTab title="Create a review" to="/review" />}
       </ScrollView>
     </View>
   );
