@@ -9,6 +9,7 @@ import theme from '../theme';
 import RepositorySingle from './RepositorySingle';
 import ReviewForm from './ReviewForm';
 import SignUp from './SignUp';
+import MyReviews from './MyReviews';
 
 
 const styles = StyleSheet.create({
@@ -30,6 +31,9 @@ const Main = () => {
         </Route>
         <Route path="/review" exact>
           <ReviewForm />
+        </Route>
+        <Route path="/my-reviews" exact>
+          <MyReviews />
         </Route>
         <Route path="/register" exact>
           <SignUp />
