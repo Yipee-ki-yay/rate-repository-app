@@ -1,8 +1,8 @@
 import React from "react";
 import { format } from "date-fns";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { useHistory } from "react-router-native";
-// import useDeleteReview from "../hooks/useDeleteReview";
+import useDeleteReview from "../../hooks/useDeleteReview";
 import Text from "../Text";
 import Button from "../Button";
 
@@ -53,34 +53,34 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyReviewItem = ({ review }) => {
+const MyReviewItem = ({ review, refetch }) => {
   const history = useHistory();
-  // const [deleteReview] = useDeleteReview();
+  const [deleteReview] = useDeleteReview();
 
   const handleViewPress = () => {
-    history.push(`/${review.node.repository.id}`);
+    history.push(`/repository/${review.node.repository.id}`);
   };
 
-  // const deleteAndRefetch = () => {
-  //   deleteReview(review.node.id);
-  //   refetch();
-  // };
+  const deleteAndRefetch = () => {
+    deleteReview(review.node.id);
+    refetch();
+  };
 
-  // const handleDeletePress = () => {
-  //   Alert.alert(
-  //     "Delete review",
-  //     "Are you sure you want to delete this review?",
-  //     [
-  //       {
-  //         text: "CANCEL",
-  //         onPress: () => console.log("Cancel Pressed"),
-  //         style: "cancel",
-  //       },
-  //       { text: "DELETE", onPress: () => deleteAndRefetch() },
-  //     ],
-  //     { cancelable: false }
-  //   );
-  // };
+  const handleDeletePress = () => {
+    Alert.alert(
+      "Delete review",
+      "Are you sure you want to delete this review?",
+      [
+        {
+          text: "CANCEL",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "DELETE", onPress: () => deleteAndRefetch() },
+      ],
+      { cancelable: false }
+    );
+  };
   return (
     <View key={review.node.id} style={styles.container}>
       <View style={styles.topContainer}>
@@ -112,9 +112,9 @@ const MyReviewItem = ({ review }) => {
         <Button onPress={handleViewPress} style={styles.viewButton}>
           View repository
         </Button>
-        {/* <Button onPress={handleDeletePress} style={styles.deleteButton}>
+        <Button onPress={handleDeletePress} style={styles.deleteButton}>
           Delete review
-        </Button> */}
+        </Button>
       </View>
     </View>
   );

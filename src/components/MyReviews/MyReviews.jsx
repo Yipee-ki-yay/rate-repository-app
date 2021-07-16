@@ -1,16 +1,18 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
-import { GET_AUTHORIZED_USER } from "../../graphql/queries";
+// import { useQuery } from "@apollo/client";
+// import { GET_AUTHORIZED_USER } from "../../graphql/queries";
 import { FlatList } from "react-native";
 import MyReviewItem from "../MyReviewItem";
+import useAuthorizedUser from '../../hooks/useAuthorizedUser';
 
 const MyReviews = () => {
-  const { data, refetch } = useQuery(GET_AUTHORIZED_USER, {
-    variables: {
-      includeReviews: true,
-    },
-    fetchPolicy: "cache-and-network",
-  });
+  const { data, refetch } = useAuthorizedUser(true);
+  // const { data, refetch } = useQuery(GET_AUTHORIZED_USER, {
+  //   variables: {
+  //     includeReviews: true,
+  //   },
+  //   fetchPolicy: "cache-and-network",
+  // });
 
   let reviewsData;
 
