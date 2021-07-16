@@ -1,21 +1,46 @@
 import { gql } from '@apollo/client';
 
 export const GET_REPOSITORIES = gql`
-  query Repositories($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection, $searchKeyword: String) {
-    repositories (orderBy: $orderBy, orderDirection: $orderDirection, searchKeyword: $searchKeyword) {
+  query Repositories(
+    $after: String
+    $first: Int, 
+    $orderBy: AllRepositoriesOrderBy, 
+    $orderDirection: OrderDirection, 
+    $searchKeyword: String
+    $ownerName: String
+  ) {
+    repositories (
+      after: $after
+      first: $first, 
+      orderBy: $orderBy, 
+      orderDirection: $orderDirection, 
+      searchKeyword: $searchKeyword,
+      ownerName: $ownerName
+    ) {
       edges {
         node {
-          ownerAvatarUrl
-          fullName
+          createdAt
           description
-          language
-          stargazersCount
           forksCount
-          reviewCount
-          ratingAverage
+          fullName
           id
+          language
+          name
+          ownerAvatarUrl
+          ownerName
+          ratingAverage
+          reviewCount
+          stargazersCount
         }
+        cursor
       }
+      pageInfo {
+        endCursor
+        startCursor
+        hasPreviousPage
+        hasNextPage
+      }
+      totalCount
     }
   }
 `;
@@ -47,11 +72,11 @@ export const GET_REPOSITORY_BY_ID = gql`
 `;
 
 export const GET_REVIEWS = gql`
-  query repository($id: ID!) {
+  query repository($id: ID!, $after: String, $first: Int) {
     repository(id: $id) {
       id
       fullName
-      reviews {
+      reviews(after: $after, first: $first) {
         edges {
           node {
             id
@@ -63,7 +88,15 @@ export const GET_REVIEWS = gql`
               username
             }
           }
+          cursor
         }
+        pageInfo {
+          endCursor
+          startCursor
+          hasPreviousPage
+          hasNextPage
+        }
+        totalCount
       }
     }
   }

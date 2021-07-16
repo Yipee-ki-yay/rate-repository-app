@@ -43,7 +43,7 @@ const RepositoryButton = ({url}) => {
 };
 
 
-const RepositoryItem = ({item, reviews, isShowRepButton}) => {
+const RepositoryItem = ({item, reviews, isShowRepButton, onEndReach}) => {
   let reviewsData;
   const itemStatistic = [
     theme.flex.flexContainerReverse,
@@ -117,8 +117,8 @@ const RepositoryItem = ({item, reviews, isShowRepButton}) => {
       renderItem={({ item }) => <ReviewItem review={item} />}
       keyExtractor={(item) => item.node.id}
       ListHeaderComponent={() => <RepositoryInfo item={item} />}
-      // onEndReached={onEndReach}
-      // onEndReachedThreshold={0.5}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   );
 };

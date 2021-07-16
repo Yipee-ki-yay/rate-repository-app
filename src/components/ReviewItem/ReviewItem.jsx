@@ -17,11 +17,11 @@ const styles = StyleSheet.create({
     color: theme.colors.quaternary,
     borderWidth: 2,
     borderColor: theme.colors.quaternary,
-    borderRadius: '50%',
+    borderRadius: 50,
     width: 36,
     height: 36,
     textAlign: 'center',
-    lineHeight: '34px',
+    lineHeight: 34,
   },
   date: {
     color: theme.colors.textTertiary,

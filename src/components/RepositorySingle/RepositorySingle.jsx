@@ -8,13 +8,17 @@ import RepositoryItem from '../RepositoryList/RepositoryItem';
 const RepositorySingle = () => {
   const { id } = useParams();
   const { repository, loading } = useRepository(id);
-  const { reviews, reviewsLoading } = useReviews(id);
+  const { reviews, reviewsLoading, fetchMore } = useReviews(id);
   console.log('reviews, reviewsLoading', reviews, reviewsLoading);
+
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   if (loading) return null;
 
   return (
-    <RepositoryItem item={repository} reviews={reviews} isShowRepButton={true} />
+    <RepositoryItem item={repository} reviews={reviews} isShowRepButton={true} onEndReach={onEndReach}/>
   );
 };
 
