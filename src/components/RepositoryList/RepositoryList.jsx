@@ -4,6 +4,8 @@ import RepositoryItem from './RepositoryItem';
 import useRepositories from '../../hooks/useRepositories';
 import { useHistory } from "react-router-native";
 import { Button, Menu, Provider } from 'react-native-paper';
+import { useDebounce } from "use-debounce";
+import TextInput from "../TextInput";
 
 const styles = StyleSheet.create({
   separator: {
@@ -46,40 +48,67 @@ const SortMenu = ({setSortBy}) => {
   );
 };
 
-export const RepositoryListContainer = ({ repositories, setSortBy }) => {
-  const history = useHistory();
-
-  const repositoryNodes = repositories
-    ? repositories.edges.map((edge) => edge.node)
-    : [];
-
-  const renderItem = ({item}) => {
-    return (
-      <Pressable onPress={() => history.push(`/repository/${item.id}`)}>
-        <RepositoryItem item={item}/>
-      </Pressable>
-    );
-  };
-  
+const FilterText = ({ setFilterText }) => {
   return (
-    <FlatList
-      testID='repositoryItem'
-      data={repositoryNodes}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={renderItem}
-      ListHeaderComponent={() => <SortMenu setSortBy={setSortBy} />}
-      ListHeaderComponentStyle={styles.listHeader}
+    <TextInput
+      onChangeText={(text) => setFilterText(text)}
+      placeholder='Filter repositories...'
+      style={{ margin: 5, backgroundColor: "white" }}
     />
   );
 };
 
+const RepositoryItemWrap = ({item}) => {
+  const history = useHistory();
+
+  return (
+    <Pressable onPress={() => history.push(`/repository/${item.id}`)}>
+      <RepositoryItem item={item}/>
+    </Pressable>
+  );
+};
+
+export class RepositoryListContainer extends React.Component {
+  renderHeader = () => {
+    const props = this.props;
+    return (
+      <View>
+        <FilterText setFilterText={props.setFilterText} />
+        <SortMenu setSortBy={props.setSortBy} />
+      </View>
+    );
+  };
+
+  render() {
+    const repositories = this.props.repositories;
+    const repositoryNodes = repositories
+    ? repositories.edges.map((edge) => edge.node)
+    : [];
+
+    return (
+      <FlatList
+        testID='repositoryItem'
+        data={repositoryNodes}
+        ItemSeparatorComponent={ItemSeparator}
+        renderItem={({item}) => <RepositoryItemWrap item={item} />}
+        ListHeaderComponent={this.renderHeader}
+        ListHeaderComponentStyle={styles.listHeader}
+      />
+    );
+  }
+}
+
 const RepositoryList = () => {
   const [sortBy, setSortBy] = useState("");
-  const { repositories } = useRepositories(sortBy);
+  const [filterText, setFilterText] = useState("");
+  const [filterTextValue] = useDebounce(filterText, 500);
+
+  const { repositories } = useRepositories(sortBy, filterTextValue);
 
   return <RepositoryListContainer 
     repositories={repositories} 
     setSortBy={setSortBy}
+    setFilterText={setFilterText}
   />;
 };
 
